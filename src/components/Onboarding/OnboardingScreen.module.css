@@ -1,0 +1,249 @@
+.screen {
+  position: absolute;
+  inset: 0;
+  background: var(--color-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* Дощ */
+.rainLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.drop {
+  position: absolute;
+  top: -20px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(135, 206, 235, 0.6));
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh); }
+}
+
+/* Сонячний промінь */
+.sunray {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 40%;
+  background: linear-gradient(to bottom, var(--color-yellow), transparent);
+  border-radius: 3px;
+  opacity: 0;
+  animation: rayAppear 1s ease-out forwards;
+  animation-delay: 2s;
+}
+
+.sunCircle {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--color-yellow);
+  box-shadow: 0 0 40px var(--color-yellow), 0 0 80px rgba(249, 213, 110, 0.4);
+  opacity: 0;
+  animation: rayAppear 1s ease-out forwards;
+  animation-delay: 2s;
+}
+
+@keyframes rayAppear {
+  to { opacity: 1; }
+}
+
+/* Паросток */
+.sproutWrap {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(100px);
+  opacity: 0;
+  animation: sproutUp 1.2s var(--ease-bounce) forwards;
+  animation-delay: 3s;
+}
+
+@keyframes sproutUp {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* SVG Паросток */
+.sproutSvg {
+  width: 140px;
+  height: 160px;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+}
+
+/* Земля */
+.ground {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(to bottom, #5c4a32, #3d2f1e);
+  border-radius: 50% 50% 0 0 / 30px 30px 0 0;
+  margin-top: -20px;
+}
+
+/* Текст привітання */
+.bubble {
+  position: absolute;
+  bottom: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 300px;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInBubble 0.8s ease forwards;
+  animation-delay: 4.5s;
+}
+
+@keyframes fadeInBubble {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-white);
+}
+
+.bubbleText {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* Форма */
+.formWrap {
+  position: absolute;
+  inset: 0;
+  background: var(--color-cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  gap: var(--space-md);
+  overflow-y: auto;
+  animation: fadeInForm 0.6s ease forwards;
+}
+
+@keyframes fadeInForm {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.formTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.formSubtitle {
+  font-size: 15px;
+  color: var(--color-text-light);
+  text-align: center;
+  margin-top: -8px;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2.5px solid var(--color-green);
+  border-radius: var(--radius-md);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text);
+  background: var(--color-white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: var(--color-green-dark);
+}
+
+.ageLabel {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  align-self: flex-start;
+}
+
+.ageButtons {
+  display: flex;
+  gap: var(--space-sm);
+  align-self: flex-start;
+}
+
+.ageBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: 2.5px solid var(--color-kraft);
+  background: var(--color-white);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-text);
+  transition: all 0.2s;
+}
+
+.ageBtnActive {
+  background: var(--color-yellow);
+  border-color: var(--color-yellow);
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: auto;
+  padding: 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-green);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+}
+
+.submitBtn:active {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-sm);
+}
+
+.submitBtnDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.formSprout {
+  width: 80px;
+  height: 90px;
+}
