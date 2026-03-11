@@ -2,3 +2,11 @@ node_modules/
 dist/
 .DS_Store
 *.local
+.env
+.env.*
+
+# Design docs (binary files, not for version control)
+*.docx
+*.doc
+*.xlsx
+*.pdf
