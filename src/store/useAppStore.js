@@ -34,18 +34,14 @@ export function useAppStore() {
     saveState(store)
   }, [store])
 
-  // Перевіряємо, чи новий день — скидаємо todayDone
+  // Новий календарний день — скидаємо todayDone, але НЕ чіпаємо currentDay.
+  // currentDay зростає лише після завершення уроку (у completeToday).
   useEffect(() => {
     const today = new Date().toDateString()
-    if (store.lastOpenDate && store.lastOpenDate !== today) {
-      setStore(s => ({
-        ...s,
-        todayDone: false,
-        currentDay: s.currentDay + 1,
-        lastOpenDate: today,
-      }))
-    } else if (!store.lastOpenDate) {
+    if (!store.lastOpenDate) {
       setStore(s => ({ ...s, lastOpenDate: today }))
+    } else if (store.lastOpenDate !== today) {
+      setStore(s => ({ ...s, todayDone: false, lastOpenDate: today }))
     }
   }, [])
 
@@ -58,6 +54,7 @@ export function useAppStore() {
       ...s,
       todayDone: true,
       leaves: s.leaves + 1,
+      currentDay: s.currentDay + 1,
     }))
   }
 

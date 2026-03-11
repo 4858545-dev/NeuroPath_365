@@ -16,7 +16,9 @@ export function HomeScreen({ store, onStartAdventure, onReset }) {
     <div className={s.screen}>
       <div className={s.header}>
         <p className={s.greeting}>NeuroPath 365 🌿</p>
-        <button className={s.devReset} onClick={onReset}>скинути</button>
+        {import.meta.env.DEV && (
+          <button className={s.devReset} onClick={onReset}>скинути</button>
+        )}
       </div>
 
       <div className={s.progressWrap}>

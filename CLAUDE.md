@@ -24,16 +24,16 @@ State-based routing in [src/App.jsx](src/App.jsx) — no react-router. Three scr
 
 ### State management
 
-Zustand store with `persist` in [src/store/useAppStore.js](src/store/useAppStore.js), localStorage key `'neuropath365'`.
+Custom React hook (`useState` + `useEffect`) in [src/store/useAppStore.js](src/store/useAppStore.js), manually persisted to localStorage under key `'neuropath365'`.
 
 State shape:
 ```js
-{ childName, childAge, currentDay, currentPhase, leaves,
-  todayDone, lastOpenDate, completedDays, trialExpired, isSubscribed }
+{ childName, childAge, currentDay, leaves, todayDone, lastOpenDate }
 ```
 
-Store methods: `setChild`, `completePhase`, `completeToday`, `checkNewDay`, `resetForDev`.
-Never write to localStorage directly — always go through the store.
+Methods: `setChild`, `completeToday`, `resetForDev`.
+Never write to localStorage directly — always go through the hook.
+`resetForDev` is guarded by `import.meta.env.DEV` — never runs in production.
 
 ### Content system
 
