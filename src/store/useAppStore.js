@@ -19,6 +19,7 @@ const defaultState = {
   childName: null,
   childAge: null,
   currentDay: 1,
+  currentPhase: 1,
   leaves: 0,
   todayDone: false,
   lastOpenDate: null,
@@ -41,7 +42,7 @@ export function useAppStore() {
     if (!store.lastOpenDate) {
       setStore(s => ({ ...s, lastOpenDate: today }))
     } else if (store.lastOpenDate !== today) {
-      setStore(s => ({ ...s, todayDone: false, lastOpenDate: today }))
+      setStore(s => ({ ...s, todayDone: false, currentPhase: 1, lastOpenDate: today }))
     }
   }, [])
 
@@ -49,10 +50,15 @@ export function useAppStore() {
     setStore(s => ({ ...s, childName: name, childAge: age }))
   }
 
+  function completePhase(phase) {
+    setStore(s => ({ ...s, currentPhase: phase }))
+  }
+
   function completeToday() {
     setStore(s => ({
       ...s,
       todayDone: true,
+      currentPhase: 1,
       leaves: s.leaves + 1,
       currentDay: s.currentDay + 1,
     }))
@@ -65,5 +71,5 @@ export function useAppStore() {
 
   const isOnboarded = Boolean(store.childName)
 
-  return { store, isOnboarded, setChild, completeToday, resetForDev }
+  return { store, isOnboarded, setChild, completePhase, completeToday, resetForDev }
 }
