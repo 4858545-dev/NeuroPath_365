@@ -17,10 +17,13 @@ No test runner is configured.
 
 ### Screen routing
 
-State-based routing in [src/App.jsx](src/App.jsx) — no react-router. Three screens:
+State-based routing in [src/App.jsx](src/App.jsx) — no react-router. Four screens:
 - `onboarding` → `OnboardingScreen` (if `childName` is null)
-- `home` → `HomeScreen`
+- `home` → `HomeScreen` (or `OfferScreen` if `trialExpired === true`)
 - `lesson` → `LessonScreen`
+- `offer` → `OfferScreen`
+
+Full UI spec: **[docs/screens.md](docs/screens.md)** — read before creating any screen component.
 
 ### State management
 
@@ -28,29 +31,27 @@ Custom React hook (`useState` + `useEffect`) in [src/store/useAppStore.js](src/s
 
 State shape:
 ```js
-{ childName, childAge, currentDay, leaves, todayDone, lastOpenDate }
+{ childName, childAge, currentDay, currentPhase, leaves,
+  todayDone, lastOpenDate, completedDays, trialExpired }
 ```
 
-Methods: `setChild`, `completeToday`, `resetForDev`.
+Methods: `setChild`, `completePhase(phase)`, `completeToday`, `checkNewDay`, `resetForDev`.
 Never write to localStorage directly — always go through the hook.
 `resetForDev` is guarded by `import.meta.env.DEV` — never runs in production.
+`trialExpired` becomes `true` automatically when `currentDay > 6`.
 
 ### Content system
 
-Day content lives in `src/content/days/day*.json`. Each file has this shape:
-```json
-{
-  "day": 1,
-  "phases": [
-    { "type": "story",    "text": "...", "audioUrl": null },
-    { "type": "exercise", "videoUrl": null, "description": "..." },
-    { "type": "task",     "variant": "tap_correct", "question": "...",
-      "options": [...], "correct": 1 }
-  ]
-}
-```
-`audioUrl`/`videoUrl` are `null` in dev — components show placeholders.
-Load content via `src/hooks/useDayContent.js`; progress logic via `src/hooks/useProgress.js`.
+Day content lives in `src/content/days/day*.json`. Each file has **4 phases**:
+
+| `phaseNumber` | `type` | Notes |
+|---|---|---|
+| 1 | `story` | `text`, `audioUrl` (null in dev) |
+| 2 | `exercise` | `video.videoUrl` (null in dev), `textForParents`, `rhythm` |
+| 3 | `tasks` | array of `items` with variants: `tap_correct`, `tap_sequence`, `drag_match`, `tap_letter`, `trace_letter` |
+| 4 | `finale` | reward, button → `completeToday()` |
+
+`audioUrl`/`videoUrl` are `null` in dev — components show placeholders. See `src/content/days/day1.json` as the reference implementation.
 
 ### Styling
 
@@ -63,7 +64,7 @@ Load content via `src/hooks/useDayContent.js`; progress logic via `src/hooks/use
 
 - Each screen lives in `src/components/<ScreenName>/` with `ScreenName.jsx` + `ScreenName.module.css`.
 - Shared components go in `src/components/Shared/`.
-- [src/components/Shared/SproutSvg.jsx](src/components/Shared/SproutSvg.jsx) — inline SVG of the Паросток character.
+- [src/components/Shared/SproutSvg.jsx](src/components/Shared/SproutSvg.jsx) — inline SVG of the main character. Name: **Ростік** (use this name everywhere in UI text).
 
 ### Legacy files
 
@@ -79,8 +80,9 @@ Load content via `src/hooks/useDayContent.js`; progress logic via `src/hooks/use
 
 ## Product context
 
-- [docs/architecture.md](docs/architecture.md) — tech stack, Zustand schema, content JSON schema, PWA config, analytics events, media strategy, roadmap
-- [docs/security.md](docs/security.md) — data model, GDPR-K/COPPA вимоги, CSP, pre-launch checklist
-- [docs/project.md](docs/project.md) — product spec (screens, phases, open questions)
+- [docs/screens.md](docs/screens.md) — **UI spec** (єдина точка правди для розробки екранів)
+- [docs/architecture.md](docs/architecture.md) — tech stack, content JSON schema, PWA config, analytics, roadmap
+- [docs/security.md](docs/security.md) — data model, GDPR-K/COPPA, CSP, pre-launch checklist
+- [docs/project.md](docs/project.md) — product spec (персонажі, світ, бізнес-модель)
 - [docs/competitors.md](docs/competitors.md) — competitive analysis
-- [tasks.md](tasks.md) — development backlog
+- [tasks.md](tasks.md) — development backlog з відкритими питаннями
