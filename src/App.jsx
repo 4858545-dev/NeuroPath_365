@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAppStore } from './store/useAppStore'
 import { OnboardingScreen } from './components/Onboarding/OnboardingScreen'
 import { HomeScreen } from './components/Home/HomeScreen'
-import { LessonScreen } from './components/Lesson/LessonScreen'
+import { LessonScreen } from './components/LessonScreen/LessonScreen'
 
 export function App() {
   const { store, isOnboarded, setChild, completeToday, resetForDev } = useAppStore()

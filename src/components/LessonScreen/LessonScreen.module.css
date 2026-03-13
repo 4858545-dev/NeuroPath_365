@@ -1,0 +1,148 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-md);
+  gap: var(--space-md);
+  background: var(--color-cream);
+}
+
+/* ── Заголовок ── */
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: 36px;
+}
+
+.backBtn {
+  position: absolute;
+  left: 0;
+  background: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-light);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: color 0.15s var(--ease-smooth);
+}
+
+.backBtn:active {
+  color: var(--color-text);
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* порожній div для центрування заголовку */
+.headerSpacer {
+  position: absolute;
+  right: 0;
+  width: 60px;
+}
+
+/* ── Прогрес-бар ── */
+
+.progress {
+  display: flex;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.segment {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: #ddd5c8;
+  transition: background 0.3s var(--ease-smooth);
+}
+
+.segmentActive {
+  background: var(--color-yellow);
+}
+
+.segmentDone {
+  background: var(--color-green-dark);
+}
+
+/* ── Планшет з казкою ── */
+
+.tablet {
+  flex: 1;
+  min-height: 0; /* дозволяє flex-дитині скролитись */
+  overflow-y: auto;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+}
+
+.storyContent {
+  flex: 1;
+}
+
+.para {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+.para:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Плашка аудіо ── */
+
+.audioBar {
+  margin-top: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-cream);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.audioNote {
+  font-size: 13px;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.playBtn {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-green-dark);
+  background: none;
+  padding: var(--space-xs) var(--space-md);
+}
+
+/* ── Кнопка "До вправи" ── */
+
+.nextBtn {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 15px var(--space-lg);
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 800;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 0 #5a9456;
+  transition: transform 0.1s var(--ease-smooth), box-shadow 0.1s var(--ease-smooth);
+}
+
+.nextBtn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #5a9456;
+}
