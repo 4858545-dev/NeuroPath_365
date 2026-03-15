@@ -1,12 +1,16 @@
 import s from './HomeScreen.module.css'
 import { SproutSvg } from '../Shared/SproutSvg'
+import { getGender } from '../../utils/nameGender'
 
 export function HomeScreen({ store, onStartAdventure, onReset }) {
   const { childName, currentDay, leaves, todayDone } = store
   const progress = Math.min((currentDay / 365) * 100, 100)
 
+  const gender = getGender(childName)
+  const readyWord = gender === 'male' ? 'Готовий' : gender === 'female' ? 'Готова' : 'Готові'
+
   const messages = [
-    `Привіт, ${childName}! Готова до пригоди?`,
+    `Привіт, ${childName}! ${readyWord} до пригоди?`,
     `${childName}, сьогодні нас чекає щось особливе!`,
     `Ура, ${childName} тут! Починаємо?`,
   ]
@@ -15,7 +19,7 @@ export function HomeScreen({ store, onStartAdventure, onReset }) {
   return (
     <div className={s.screen}>
       <div className={s.header}>
-        <p className={s.greeting}>NeuroPath 365 🌿</p>
+        <p className={s.greeting}>Нейровітамінка 365 🌿</p>
         {import.meta.env.DEV && (
           <button className={s.devReset} onClick={onReset}>скинути</button>
         )}
