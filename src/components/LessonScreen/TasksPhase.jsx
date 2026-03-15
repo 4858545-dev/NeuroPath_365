@@ -15,7 +15,7 @@ function TapCorrect({ data, onDone }) {
     if (ok) {
       setTimeout(onDone, 1400)
     } else {
-      setTimeout(() => { setPicked(null); setResult(null) }, 900)
+      setTimeout(() => { setPicked(null); setResult(null) }, 1500)
     }
   }
 
@@ -332,7 +332,7 @@ function TraceLetter({ data, onDone }) {
         covered.current = new Set()
         drawGuide()
         setResult(null)
-      }, 900)
+      }, 1500)
     } else {
       covered.current = new Set()
       drawGuide()
