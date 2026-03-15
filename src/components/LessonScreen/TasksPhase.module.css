@@ -1,0 +1,298 @@
+/* ── PreTask ────────────────────────────────────────────── */
+
+.pretask {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.pretaskText {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.pretaskBtn {
+  padding: 12px var(--space-xl);
+  background: var(--color-green-dark);
+  color: white;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: var(--radius-full);
+  box-shadow: 0 3px 0 #5a9456;
+}
+
+/* ── Task wrapper ───────────────────────────────────────── */
+
+.taskWrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.taskMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskSubject {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.taskNum {
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.taskTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+/* ── Shared ─────────────────────────────────────────────── */
+
+.instruction {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-light);
+}
+
+.feedbackOk {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-green-dark);
+  background: #f0faf0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.feedbackNo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #c0392b;
+  background: #fff5f5;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+/* ── TapCorrect ─────────────────────────────────────────── */
+
+.tapCorrect {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.question {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.option {
+  padding: 14px var(--space-md);
+  background: var(--color-cream);
+  border-radius: var(--radius-sm);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text);
+  border: 2px solid transparent;
+  text-align: center;
+  transition: transform 0.1s var(--ease-smooth), background 0.12s;
+}
+
+.option:active {
+  transform: scale(0.97);
+}
+
+.optionOk {
+  background: #e8f5e9;
+  border-color: var(--color-green-dark);
+  color: var(--color-green-dark);
+}
+
+.optionNo {
+  background: #ffebee;
+  border-color: #e53935;
+  color: #c62828;
+}
+
+/* ── TapSequence ────────────────────────────────────────── */
+
+.tapSequence {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.scene {
+  position: relative;
+  height: 200px;
+  background: linear-gradient(180deg, #d4ecf7 0%, #fef9ee 100%);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.sceneItem {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: var(--shadow-sm);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s var(--ease-bounce), opacity 0.35s;
+}
+
+.sceneItemGone {
+  opacity: 0;
+  transform: translate(-50%, -200%) scale(0.4);
+  pointer-events: none;
+}
+
+.sceneCounter {
+  position: absolute;
+  bottom: var(--space-sm);
+  right: var(--space-md);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text-light);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+/* ── DragMatch ──────────────────────────────────────────── */
+
+.dragMatch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.matchRow {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.matchCard {
+  flex: 1;
+  min-height: 56px;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-cream);
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.3;
+  text-align: center;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.matchCardActive {
+  border-color: var(--color-yellow);
+  background: #fff9e6;
+}
+
+.matchCardDone {
+  border-color: var(--color-green-dark);
+  background: #f0faf0;
+  opacity: 0.75;
+}
+
+.matchArrow {
+  font-size: 18px;
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+/* ── TapLetter ──────────────────────────────────────────── */
+
+.tapLetter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.lettersGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+.letter {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  background: var(--color-cream);
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--color-text);
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s var(--ease-bounce);
+}
+
+.letter:active {
+  transform: scale(0.88);
+}
+
+.letterTarget {
+  animation: letterPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes letterPulse {
+  0%, 100% { transform: scale(1);    border-color: transparent; }
+  50%       { transform: scale(1.1); border-color: var(--color-yellow); }
+}
+
+/* ── TraceLetter ────────────────────────────────────────── */
+
+.traceLetter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.canvas {
+  width: 240px;
+  height: 240px;
+  display: block;
+  border-radius: var(--radius-md);
+  background: white;
+  box-shadow: var(--shadow-sm);
+  touch-action: none;
+}

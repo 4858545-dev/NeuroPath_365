@@ -1,9 +1,12 @@
 import { useAppStore } from '../../store/useAppStore'
 import day1 from '../../content/days/day1.json'
+import { TasksPhase } from './TasksPhase'
 import s from './LessonScreen.module.css'
 
 const storyPhase    = day1.phases[0]
 const exercisePhase = day1.phases[1]
+const tasksPhase    = day1.phases[2]
+const finalePhase   = day1.phases[3]
 
 function buildRhythm(r) {
   const parts = []
@@ -14,42 +17,63 @@ function buildRhythm(r) {
   return parts.join(' → ') + ` × ${r.repetitions} рази`
 }
 
+function segClass(phase, seg, s) {
+  if (phase > seg) return s.segmentDone
+  if (phase === seg) return s.segmentActive
+  return ''
+}
+
 export function LessonScreen({ onBack }) {
-  const { store, completePhase } = useAppStore()
+  const { store, completePhase, completeToday } = useAppStore()
   const phase = store.currentPhase ?? 1
 
-  function handleBack() {
-    if (phase === 1) {
-      onBack()
-    } else {
-      completePhase(phase - 1)
-    }
+  // ── Фаза 4: Фінал ────────────────────────────────────────
+  if (phase === 4) {
+    return (
+      <div className={`${s.screen} ${s.finale}`}>
+        <p className={s.finaleDay}>День {store.currentDay} з 6</p>
+
+        <div className={s.finaleCenter}>
+          <p className={s.finaleMessage}>{finalePhase.reward.message}</p>
+        </div>
+
+        <div className={s.finaleLeaves}>
+          {Array.from({ length: store.leaves + 1 }, (_, i) => (
+            <span
+              key={i}
+              className={`${s.leaf} ${i === store.leaves ? s.leafNew : ''}`}
+            >
+              🍃
+            </span>
+          ))}
+        </div>
+
+        <button
+          className={s.nextBtn}
+          onClick={() => { completeToday(); onBack() }}
+        >
+          {finalePhase.buttonLabel}
+        </button>
+      </div>
+    )
   }
 
-  function handleNext() {
-    if (phase === 1) {
-      completePhase(2)
-    } else if (phase === 2) {
-      console.log('completePhase(2) → перехід до фази 3')
-    }
-  }
-
-  const title      = phase === 1 ? storyPhase.uiLabel : exercisePhase.uiLabel
-  const buttonLabel = phase === 1 ? storyPhase.buttonLabel : exercisePhase.buttonLabel
+  // ── Фази 1–3 ─────────────────────────────────────────────
+  const phaseLabel = [storyPhase, exercisePhase, tasksPhase][phase - 1]?.uiLabel
 
   return (
     <div className={s.screen}>
 
       <header className={s.header}>
-        <button className={s.backBtn} onClick={handleBack}>← Назад</button>
-        <p className={s.title}>{title}</p>
+        <button className={s.backBtn} onClick={onBack}>← Назад</button>
+        <p className={s.title}>{phaseLabel}</p>
         <div className={s.headerSpacer} />
       </header>
 
       <div className={s.progress}>
-        <div className={`${s.segment} ${phase === 1 ? s.segmentActive : s.segmentDone}`} />
-        <div className={`${s.segment} ${phase === 2 ? s.segmentActive : ''}`} />
-        <div className={s.segment} />
+        <div className={`${s.segment} ${segClass(phase, 1, s)}`} />
+        <div className={`${s.segment} ${segClass(phase, 2, s)}`} />
+        <div className={`${s.segment} ${segClass(phase, 3, s)}`} />
       </div>
 
       {/* ── Фаза 1: Казка ── */}
@@ -95,9 +119,22 @@ export function LessonScreen({ onBack }) {
         </div>
       )}
 
-      <button className={s.nextBtn} onClick={handleNext}>
-        {buttonLabel}
-      </button>
+      {/* ── Фаза 3: Завдання ── */}
+      {phase === 3 && (
+        <div className={s.tablet}>
+          <TasksPhase
+            phase={tasksPhase}
+            onComplete={() => completePhase(4)}
+          />
+        </div>
+      )}
+
+      {/* Кнопка лише для фаз 1 і 2 */}
+      {(phase === 1 || phase === 2) && (
+        <button className={s.nextBtn} onClick={() => completePhase(phase + 1)}>
+          {phase === 1 ? storyPhase.buttonLabel : exercisePhase.buttonLabel}
+        </button>
+      )}
 
     </div>
   )
