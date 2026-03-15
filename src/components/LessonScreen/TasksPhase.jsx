@@ -229,6 +229,7 @@ function TraceLetter({ data, onDone }) {
   const drawing    = useRef(false)
   const prevPos    = useRef(null)
   const covered    = useRef(new Set())
+  const onMoveRef  = useRef(null)
   const [result, setResult] = useState(null)
   const threshold  = data.completionThreshold ?? 0.8
 
@@ -255,6 +256,19 @@ function TraceLetter({ data, onDone }) {
 
   useEffect(() => { drawGuide() }, [])
 
+  // touchmove реєструємо imperatively з { passive: false },
+  // бо React додає synthetic touch listeners як passive — тому
+  // e.preventDefault() всередині JSX onTouchMove ігнорується браузером.
+  useEffect(() => {
+    const canvas = canvasRef.current
+    function handleTouchMove(e) {
+      e.preventDefault()
+      onMoveRef.current(e)
+    }
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false })
+    return () => canvas.removeEventListener('touchmove', handleTouchMove)
+  }, [])
+
   function getXY(e) {
     const rect = canvasRef.current.getBoundingClientRect()
     const sx = SZ / rect.width
@@ -275,6 +289,7 @@ function TraceLetter({ data, onDone }) {
 
   function onStart(e) {
     e.preventDefault()
+    document.body.style.overflow = 'hidden'
     const pos = getXY(e)
     if (distToCircle(pos) > 36) return
     drawing.current = true
@@ -303,6 +318,7 @@ function TraceLetter({ data, onDone }) {
 
   function onEnd(e) {
     e.preventDefault()
+    document.body.style.overflow = ''
     if (!drawing.current) return
     drawing.current = false
     prevPos.current = null
@@ -323,6 +339,9 @@ function TraceLetter({ data, onDone }) {
     }
   }
 
+  // оновлюємо ref на кожному рендері щоб touchmove listener не мав stale closure
+  onMoveRef.current = onMove
+
   return (
     <div className={s.traceLetter}>
       <p className={s.instruction}>{data.instruction}</p>
@@ -335,7 +354,6 @@ function TraceLetter({ data, onDone }) {
         onMouseMove={onMove}
         onMouseUp={onEnd}
         onTouchStart={onStart}
-        onTouchMove={onMove}
         onTouchEnd={onEnd}
       />
       {result && (
