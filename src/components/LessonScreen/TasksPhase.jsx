@@ -9,7 +9,7 @@ function TapCorrect({ data, onDone }) {
 
   function pick(i) {
     if (result === 'ok') return
-    const ok = i === data.correct
+    const ok = i === Number(data.correct)
     setPicked(i)
     setResult(ok ? 'ok' : 'no')
     if (ok) {
@@ -71,7 +71,7 @@ function TapSequence({ data, onDone }) {
   }
 
   if (qIndex !== null) {
-    return <TapCorrect data={data.questions[qIndex]} onDone={nextQ} />
+    return <TapCorrect key={qIndex} data={data.questions[qIndex]} onDone={nextQ} />
   }
 
   return (
@@ -388,10 +388,10 @@ export function TasksPhase({ phase, onComplete }) {
         <span className={s.taskNum}>Завдання {taskIndex + 1} з {tasks.length}</span>
       </div>
       <h3 className={s.taskTitle}>{task.title}</h3>
-      {task.variant === 'tap_sequence' && <TapSequence data={task} onDone={nextTask} />}
-      {task.variant === 'drag_match'   && <DragMatch   data={task} onDone={nextTask} />}
-      {task.variant === 'tap_letter'   && <TapLetter   data={task} onDone={nextTask} />}
-      {task.variant === 'trace_letter' && <TraceLetter data={task} onDone={nextTask} />}
+      {task.variant === 'tap_sequence' && <TapSequence key={taskIndex} data={task} onDone={nextTask} />}
+      {task.variant === 'drag_match'   && <DragMatch   key={taskIndex} data={task} onDone={nextTask} />}
+      {task.variant === 'tap_letter'   && <TapLetter   key={taskIndex} data={task} onDone={nextTask} />}
+      {task.variant === 'trace_letter' && <TraceLetter key={taskIndex} data={task} onDone={nextTask} />}
     </div>
   )
 }
