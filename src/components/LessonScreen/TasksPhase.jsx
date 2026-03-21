@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import s from './TasksPhase.module.css'
+import { KulbabkaSvg } from '../Shared/KulbabkaSvg'
 
 // ── TapCorrect ────────────────────────────────────────────
 
@@ -48,12 +49,17 @@ function TapCorrect({ data, onDone }) {
 
 // ── Dandelion ─────────────────────────────────────────────
 
+// 5 пушинок рівномірно по дузі навколо голівки Кульбабки (45° між кожною)
+// Центр голівки: (160, 162) у SVG 320×420 → (50%, 38.6%)
+// Відстань до кінця стебла: ~100px → 31.25% ширини / 23.8% висоти
+// rotation: кут повороту SVG навколо центру голівки (22px, 22px)
+// так щоб ніжка кожної пушинки вказувала до центру голови
 const PUFF_POSITIONS = [
-  { id: 'p1', cx: 78,  cy: 215 },  // left
-  { id: 'p2', cx: 99,  cy: 164 },  // top-left
-  { id: 'p3', cx: 150, cy: 143 },  // top
-  { id: 'p4', cx: 201, cy: 164 },  // top-right
-  { id: 'p5', cx: 222, cy: 215 },  // right
+  { id: 'p1', left: '18.75%', top: '38.6%', rotation: -90 },  // захід  → ніжка вправо
+  { id: 'p2', left: '27.8%',  top: '21.7%', rotation: -45 },  // пн-захід → ніжка пд-схід
+  { id: 'p3', left: '50%',    top: '14.8%', rotation:   0 },  // північ  → ніжка вниз (default)
+  { id: 'p4', left: '72.2%',  top: '21.7%', rotation:  45 },  // пн-схід → ніжка пд-захід
+  { id: 'p5', left: '81.25%', top: '38.6%', rotation:  90 },  // схід   → ніжка вліво
 ]
 
 function Dandelion({ data, onDone }) {
@@ -86,73 +92,69 @@ function Dandelion({ data, onDone }) {
     return <TapCorrect key={qIndex} data={data.questions[qIndex]} onDone={nextQ} />
   }
 
-  const HCX = 150, HCY = 215, HR = 30
-
   return (
     <div className={s.dandelion}>
       <p className={s.instruction}>{data.instruction}</p>
-      <svg
-        viewBox="0 0 300 290"
-        width="100%"
-        className={s.dandelionSvg}
-      >
-        {/* Небо */}
-        <rect width="300" height="290" fill="#deeef8" rx="12" />
-        {/* Трава */}
-        <rect x="0" y="268" width="300" height="22" rx="4" fill="#c8e09e" />
+      <div className={s.dandelionScene}>
+        <KulbabkaSvg className={s.dandelionChar} />
 
-        {/* Стебло */}
-        <line x1={HCX} y1={HCY + HR} x2={HCX} y2={268}
-          stroke="#8ab870" strokeWidth="4" strokeLinecap="round" />
+        {/* Overlay-група з тією ж анімацією sway, що й kb-main */}
+        <div className={s.dandelionPuffGroup}>
+          {PUFF_POSITIONS.map(({ id, left, top, rotation }) => {
+            const gone = tapped.has(id)
+            return (
+              <div
+                key={id}
+                className={s.dandelionPuff}
+                style={{
+                  left, top,
+                  // anchor at circle center: 22px from top of 64px element = 34.4%
+                  transform: gone
+                    ? 'translate(-50%, calc(-34.4% - 180px))'
+                    : 'translate(-50%, -34.4%)',
+                  opacity: gone ? 0 : 1,
+                  transition: ready
+                    ? 'transform 600ms ease-out, opacity 500ms ease-out'
+                    : 'none',
+                  pointerEvents: gone ? 'none' : 'auto',
+                }}
+                onClick={() => tapPuff(id)}
+                onTouchEnd={(e) => { e.preventDefault(); tapPuff(id) }}
+              >
+                <svg width="44" height="64" viewBox="0 0 44 64" fill="none"
+                  style={{ transform: `rotate(${rotation}deg)`, transformOrigin: '22px 22px' }}>
+                  {/* Ніжка */}
+                  <line x1="22" y1="30" x2="22" y2="64"
+                    stroke="#d8d0b0" strokeWidth="1.5" strokeLinecap="round" opacity="0.85"/>
+                  {/* Промені */}
+                  {Array.from({ length: 8 }, (_, i) => {
+                    const a = (i / 8) * 2 * Math.PI
+                    return (
+                      <line key={i}
+                        x1={22 + Math.cos(a) * 10} y1={22 + Math.sin(a) * 10}
+                        x2={22 + Math.cos(a) * 20} y2={22 + Math.sin(a) * 20}
+                        stroke="#d8d0b0" strokeWidth="1" strokeLinecap="round" opacity="0.85"/>
+                    )
+                  })}
+                  {/* Голівка */}
+                  <circle cx="22" cy="22" r="14" fill="white" opacity="0.92"/>
+                  <circle cx="22" cy="22" r="10" fill="white"/>
+                  {/* Мікро-промені на кінцях */}
+                  <line x1="22" y1="8"  x2="22" y2="4"  stroke="white" strokeWidth="0.8" opacity="0.7"/>
+                  <line x1="32" y1="11" x2="35" y2="8"  stroke="white" strokeWidth="0.8" opacity="0.6"/>
+                  <line x1="12" y1="11" x2="9"  y2="8"  stroke="white" strokeWidth="0.8" opacity="0.6"/>
+                  <line x1="36" y1="22" x2="40" y2="22" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+                  <line x1="8"  y1="22" x2="4"  y2="22" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+                  {/* Золота крапка в центрі */}
+                  <circle cx="22" cy="22" r="3.5" fill="#e8d898" opacity="0.7"/>
+                </svg>
+              </div>
+            )
+          })}
+        </div>
 
-        {/* Голівка */}
-        <circle cx={HCX} cy={HCY} r={HR}
-          fill="#f5f0e8" stroke="#c4a882" strokeWidth="2" />
-
-        {/* Пушинки */}
-        {PUFF_POSITIONS.map(({ id, cx, cy }) => {
-          const gone = tapped.has(id)
-          return (
-            <g
-              key={id}
-              style={{
-                transform: gone
-                  ? `translate(${cx}px, ${cy - 200}px)`
-                  : `translate(${cx}px, ${cy}px)`,
-                opacity: gone ? 0 : 1,
-                transition: ready
-                  ? 'transform 600ms ease-out, opacity 600ms ease-out'
-                  : 'none',
-                pointerEvents: gone ? 'none' : 'auto',
-                cursor: 'pointer',
-              }}
-              onClick={() => tapPuff(id)}
-              onTouchEnd={(e) => { e.preventDefault(); tapPuff(id) }}
-            >
-              {Array.from({ length: 8 }, (_, i) => {
-                const a = (i / 8) * 2 * Math.PI
-                return (
-                  <line key={i}
-                    x1={Math.cos(a) * 14} y1={Math.sin(a) * 14}
-                    x2={Math.cos(a) * 30} y2={Math.sin(a) * 30}
-                    stroke="#d4c9b8" strokeWidth="1.5" strokeLinecap="round" />
-                )
-              })}
-              <circle cx={0} cy={0} r={12}
-                fill="white" stroke="#ddd5c8" strokeWidth="1.5" />
-            </g>
-          )
-        })}
-
-        {/* Лічильник */}
-        <rect x="242" y="253" width="46" height="18" rx="5" fill="rgba(255,255,255,0.85)" />
-        <text x="265" y="266"
-          textAnchor="middle" fontSize="12" fontWeight="800"
-          fontFamily="Nunito, sans-serif" fill="#8b7355"
-          style={{ userSelect: 'none' }}>
-          {tapped.size} / {total}
-        </text>
-      </svg>
+        <div className={s.dandelionCounter}>{tapped.size} / {total}</div>
+      </div>
     </div>
   )
 }
@@ -500,6 +502,7 @@ export function TasksPhase({ phase, onComplete }) {
   if (step === 'pretask') {
     return (
       <div className={s.pretask}>
+        <KulbabkaSvg className={s.pretaskChar} />
         <p className={s.pretaskText}>{phase.preTaskAudio}</p>
         <button className={s.pretaskBtn} onClick={() => setStep('task')}>
           Починаємо!

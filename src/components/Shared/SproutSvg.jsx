@@ -2,55 +2,187 @@ export function SproutSvg({ className }) {
   return (
     <svg
       className={className}
-      viewBox="0 0 140 160"
+      width="260"
+      height="340"
+      viewBox="0 0 260 340"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Тіло */}
-      <ellipse cx="70" cy="110" rx="38" ry="42" fill="#c8e6c4" />
-      {/* Животик */}
-      <ellipse cx="70" cy="118" rx="22" ry="26" fill="#e8f5e3" />
+      <style>{`
+        @keyframes sprout-bounce {
+          0%, 100% { transform: translateY(0px) rotate(-2deg); }
+          50% { transform: translateY(-12px) rotate(2deg); }
+        }
+        @keyframes sprout-leafSway {
+          0%, 100% { transform: rotate(-3deg); }
+          50% { transform: rotate(3deg); }
+        }
+        @keyframes sprout-shine {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
+        }
+        .sprout-group {
+          animation: sprout-bounce 3s ease-in-out infinite;
+          transform-origin: center bottom;
+        }
+        .sprout-leaves {
+          animation: sprout-leafSway 3s ease-in-out infinite;
+          transform-origin: 130px 95px;
+        }
+        .sprout-shine {
+          animation: sprout-shine 2.5s ease-in-out infinite;
+        }
+      `}</style>
 
-      {/* Ліве вушко-листок */}
-      <ellipse cx="38" cy="80" rx="14" ry="22" fill="#7bb876" transform="rotate(-25 38 80)" />
-      <ellipse cx="38" cy="80" rx="9" ry="16" fill="#a8d5a2" transform="rotate(-25 38 80)" />
+      <defs>
+        <radialGradient id="bodyGlass" cx="35%" cy="28%" r="70%">
+          <stop offset="0%" stopColor="#f0fffe" stopOpacity="0.95"/>
+          <stop offset="30%" stopColor="#d0f0ee" stopOpacity="0.75"/>
+          <stop offset="70%" stopColor="#a8ddd8" stopOpacity="0.55"/>
+          <stop offset="100%" stopColor="#7cc8c0" stopOpacity="0.7"/>
+        </radialGradient>
+        <radialGradient id="bodyRim" cx="50%" cy="50%" r="50%">
+          <stop offset="75%" stopColor="transparent"/>
+          <stop offset="100%" stopColor="#90cac4" stopOpacity="0.8"/>
+        </radialGradient>
+        <radialGradient id="innerGlow" cx="40%" cy="35%" r="55%">
+          <stop offset="0%" stopColor="white" stopOpacity="0.5"/>
+          <stop offset="100%" stopColor="white" stopOpacity="0"/>
+        </radialGradient>
+        <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#a5d6a7"/>
+          <stop offset="40%" stopColor="#4caf50"/>
+          <stop offset="100%" stopColor="#2e7d32"/>
+        </linearGradient>
+        <linearGradient id="leafGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#b9f0b0"/>
+          <stop offset="40%" stopColor="#43a047"/>
+          <stop offset="100%" stopColor="#1b5e20"/>
+        </linearGradient>
+        <linearGradient id="stemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#2e7d32"/>
+          <stop offset="50%" stopColor="#66bb6a"/>
+          <stop offset="100%" stopColor="#388e3c"/>
+        </linearGradient>
+        <linearGradient id="limbGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#e0faf8" stopOpacity="0.9"/>
+          <stop offset="100%" stopColor="#90cac4" stopOpacity="0.7"/>
+        </linearGradient>
+        <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#1a4a1a" stopOpacity="0.25"/>
+          <stop offset="100%" stopColor="#1a4a1a" stopOpacity="0"/>
+        </radialGradient>
+        <filter id="sproutGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <filter id="leafFilter" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="1" dy="2" stdDeviation="2" floodColor="#1b5e20" floodOpacity="0.3"/>
+        </filter>
+      </defs>
 
-      {/* Праве вушко-листок */}
-      <ellipse cx="102" cy="80" rx="14" ry="22" fill="#7bb876" transform="rotate(25 102 80)" />
-      <ellipse cx="102" cy="80" rx="9" ry="16" fill="#a8d5a2" transform="rotate(25 102 80)" />
+      {/* Ground shadow */}
+      <ellipse cx="130" cy="318" rx="42" ry="10" fill="url(#shadowGrad)"/>
 
-      {/* Голова */}
-      <ellipse cx="70" cy="75" rx="34" ry="32" fill="#c8e6c4" />
+      <g className="sprout-group">
+        {/* Left leg */}
+        <path d="M110 272 Q104 285 100 300 Q98 308 103 310 Q108 312 111 304 Q114 292 118 278"
+              fill="url(#limbGlass)" stroke="#90cac4" strokeWidth="1"/>
+        <ellipse cx="103" cy="309" rx="10" ry="6" fill="url(#limbGlass)" stroke="#90cac4" strokeWidth="1"/>
 
-      {/* Листочки на голові */}
-      <ellipse cx="55" cy="46" rx="8" ry="16" fill="#7bb876" transform="rotate(-15 55 46)" />
-      <ellipse cx="70" cy="42" rx="8" ry="18" fill="#5a9e55" />
-      <ellipse cx="85" cy="46" rx="8" ry="16" fill="#7bb876" transform="rotate(15 85 46)" />
+        {/* Right leg */}
+        <path d="M150 272 Q156 285 160 300 Q162 308 157 310 Q152 312 149 304 Q146 292 142 278"
+              fill="url(#limbGlass)" stroke="#90cac4" strokeWidth="1"/>
+        <ellipse cx="157" cy="309" rx="10" ry="6" fill="url(#limbGlass)" stroke="#90cac4" strokeWidth="1"/>
 
-      {/* Очі */}
-      <ellipse cx="58" cy="74" rx="7" ry="8" fill="#4a3f35" />
-      <ellipse cx="82" cy="74" rx="7" ry="8" fill="#4a3f35" />
-      {/* Відблиски */}
-      <circle cx="61" cy="71" r="2.5" fill="white" />
-      <circle cx="85" cy="71" r="2.5" fill="white" />
+        {/* Left arm */}
+        <path d="M82 195 Q68 182 55 170 Q48 163 50 157 Q52 151 58 155 Q68 162 80 174 Q92 186 96 200"
+              fill="url(#limbGlass)" stroke="#90cac4" strokeWidth="1.2"/>
+        <path d="M50 157 Q45 150 47 145" stroke="#a8ddd8" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+        <path d="M52 153 Q46 147 49 142" stroke="#a8ddd8" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+        <path d="M55 150 Q51 143 54 139" stroke="#a8ddd8" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
 
-      {/* Рум'янець */}
-      <ellipse cx="50" cy="84" rx="7" ry="4" fill="#f9a8a8" opacity="0.6" />
-      <ellipse cx="90" cy="84" rx="7" ry="4" fill="#f9a8a8" opacity="0.6" />
+        {/* Right arm */}
+        <path d="M178 195 Q192 182 205 170 Q212 163 210 157 Q208 151 202 155 Q192 162 180 174 Q168 186 164 200"
+              fill="url(#limbGlass)" stroke="#90cac4" strokeWidth="1.2"/>
+        <path d="M210 157 Q215 150 213 145" stroke="#a8ddd8" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+        <path d="M208 153 Q214 147 211 142" stroke="#a8ddd8" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+        <path d="M205 150 Q209 143 206 139" stroke="#a8ddd8" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
 
-      {/* Носик */}
-      <ellipse cx="70" cy="82" rx="3" ry="2" fill="#7bb876" />
+        {/* Main body */}
+        <path d="M130 95 C 175 95, 198 125, 198 168 C 198 218, 170 268, 130 275 C 90 268, 62 218, 62 168 C 62 125, 85 95, 130 95 Z"
+              fill="url(#bodyGlass)" stroke="#b0e0dc" strokeWidth="1.5"/>
+        <path d="M130 95 C 175 95, 198 125, 198 168 C 198 218, 170 268, 130 275 C 90 268, 62 218, 62 168 C 62 125, 85 95, 130 95 Z"
+              fill="url(#innerGlow)"/>
 
-      {/* Ротик — усмішка */}
-      <path d="M61 89 Q70 97 79 89" stroke="#4a3f35" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+        {/* Body shine */}
+        <ellipse cx="90" cy="138" rx="16" ry="26"
+                 fill="white" opacity="0.3"
+                 transform="rotate(-20 90 138)"
+                 className="sprout-shine"/>
 
-      {/* Ручки */}
-      <ellipse cx="34" cy="120" rx="10" ry="7" fill="#c8e6c4" transform="rotate(-30 34 120)" />
-      <ellipse cx="106" cy="120" rx="10" ry="7" fill="#c8e6c4" transform="rotate(30 106 120)" />
+        {/* Refraction line */}
+        <path d="M170 120 Q180 150 175 190"
+              stroke="white" strokeWidth="2" strokeLinecap="round"
+              opacity="0.2" fill="none"/>
 
-      {/* Ніжки */}
-      <ellipse cx="56" cy="150" rx="12" ry="7" fill="#a8d5a2" />
-      <ellipse cx="84" cy="150" rx="12" ry="7" fill="#a8d5a2" />
+        {/* Blush */}
+        <ellipse cx="94" cy="200" rx="16" ry="10" fill="#ffb3ba" opacity="0.35"/>
+        <ellipse cx="166" cy="200" rx="16" ry="10" fill="#ffb3ba" opacity="0.35"/>
+
+        {/* Left eye */}
+        <ellipse cx="108" cy="182" rx="19" ry="21" fill="white" opacity="0.95"/>
+        <ellipse cx="108" cy="184" rx="14" ry="16" fill="#1a1a2e"/>
+        <ellipse cx="108" cy="185" rx="10" ry="12" fill="#2d3561"/>
+        <ellipse cx="102" cy="177" rx="5" ry="6" fill="white" opacity="0.9"/>
+        <circle cx="116" cy="190" r="2.5" fill="white" opacity="0.6"/>
+        <ellipse cx="108" cy="196" rx="6" ry="2" fill="white" opacity="0.2"/>
+
+        {/* Right eye */}
+        <ellipse cx="152" cy="182" rx="19" ry="21" fill="white" opacity="0.95"/>
+        <ellipse cx="152" cy="184" rx="14" ry="16" fill="#1a1a2e"/>
+        <ellipse cx="152" cy="185" rx="10" ry="12" fill="#2d3561"/>
+        <ellipse cx="146" cy="177" rx="5" ry="6" fill="white" opacity="0.9"/>
+        <circle cx="160" cy="190" r="2.5" fill="white" opacity="0.6"/>
+        <ellipse cx="152" cy="196" rx="6" ry="2" fill="white" opacity="0.2"/>
+
+        {/* Smile */}
+        <path d="M112 216 Q130 232 148 216"
+              stroke="#3a3a5a" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+        <path d="M116 218 Q130 228 144 218"
+              stroke="#6a5a8a" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.4"/>
+
+        {/* Stem */}
+        <rect x="126" y="70" width="8" height="32" rx="4" fill="url(#stemGrad)"/>
+        <rect x="127" y="72" width="2" height="26" rx="1" fill="white" opacity="0.4"/>
+
+        {/* Leaves */}
+        <g className="sprout-leaves" filter="url(#leafFilter)">
+          <path d="M130 75 C 120 65, 85 50, 75 30 C 72 22, 78 15, 88 20 C 105 28, 122 55, 128 75 Z"
+                fill="url(#leafGrad1)"/>
+          <path d="M128 74 C 115 60, 95 40, 83 25"
+                stroke="#2e7d32" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.6"/>
+          <path d="M118 60 C 112 52, 100 40, 92 30"
+                stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.35"/>
+          <path d="M130 75 C 140 65, 175 50, 185 30 C 188 22, 182 15, 172 20 C 155 28, 138 55, 132 75 Z"
+                fill="url(#leafGrad2)"/>
+          <path d="M132 74 C 145 60, 165 40, 177 25"
+                stroke="#2e7d32" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.6"/>
+          <path d="M142 60 C 148 52, 160 40, 168 30"
+                stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.35"/>
+        </g>
+
+        {/* Bokeh particles */}
+        <circle cx="45" cy="160" r="5" fill="white" opacity="0.25" filter="url(#sproutGlow)"/>
+        <circle cx="38" cy="220" r="3" fill="white" opacity="0.2"/>
+        <circle cx="215" cy="175" r="4" fill="white" opacity="0.22" filter="url(#sproutGlow)"/>
+        <circle cx="222" cy="235" r="6" fill="white" opacity="0.15"/>
+        <circle cx="60" cy="270" r="3" fill="white" opacity="0.18"/>
+        <circle cx="200" cy="260" r="2.5" fill="white" opacity="0.2"/>
+      </g>
     </svg>
   )
 }
