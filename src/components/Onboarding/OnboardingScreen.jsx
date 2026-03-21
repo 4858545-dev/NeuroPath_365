@@ -31,30 +31,33 @@ export function OnboardingScreen({ onComplete }) {
     return (
       <div className={s.formWrap}>
         <SproutSvg className={s.formSprout} />
-        <p className={s.formTitle}>Мені потрібен друг!</p>
-        <p className={s.formSubtitle}>Як звати твого малюка?</p>
 
-        <input
-          className={s.input}
-          type="text"
-          placeholder="Ім'я дитини"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          maxLength={20}
-          autoFocus
-        />
+        <div className={s.formContent}>
+          <p className={s.formTitle}>Мені потрібен друг!</p>
+          <p className={s.formSubtitle}>Як звати твого малюка?</p>
 
-        <p className={s.ageLabel}>Скільки років?</p>
-        <div className={s.ageButtons}>
-          {AGES.map(a => (
-            <button
-              key={a}
-              className={`${s.ageBtn} ${age === a ? s.ageBtnActive : ''}`}
-              onClick={() => setAge(a)}
-            >
-              {a}
-            </button>
-          ))}
+          <input
+            className={s.input}
+            type="text"
+            placeholder="Ім'я дитини"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            maxLength={20}
+            autoFocus
+          />
+
+          <p className={s.ageLabel}>Скільки років?</p>
+          <div className={s.ageButtons}>
+            {AGES.map(a => (
+              <button
+                key={a}
+                className={`${s.ageBtn} ${age === a ? s.ageBtnActive : ''}`}
+                onClick={() => setAge(a)}
+              >
+                {a}
+              </button>
+            ))}
+          </div>
         </div>
 
         <button
