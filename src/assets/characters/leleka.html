@@ -1,1 +1,304 @@
-<!-- TODO: insert SVG — Лелека, лелека-підліток, біле тіло, блакитні аніме-очі, протез на лівій лапці -->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лелека</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: radial-gradient(ellipse at 40% 20%, #e3f2fd 0%, #90caf9 50%, #1565c0 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    padding: 20px;
+    gap: 16px;
+  }
+  .label {
+    color: white;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(-1.5deg) translateY(0); }
+    50% { transform: rotate(1.5deg) translateY(-8px); }
+  }
+  @keyframes eyeBlink {
+    0%, 88%, 100% { transform: scaleY(1); }
+    94% { transform: scaleY(0.07); }
+  }
+  @keyframes wingFlutter {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(5deg); }
+  }
+  @keyframes shine {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.55; }
+  }
+
+  .body-group { animation: sway 4s ease-in-out infinite; transform-origin: 160px 370px; }
+  .left-eye  { animation: eyeBlink 5s ease-in-out infinite; transform-origin: 138px 145px; }
+  .right-eye { animation: eyeBlink 5s ease-in-out infinite 0.12s; transform-origin: 172px 145px; }
+  .wing-left { animation: wingFlutter 3s ease-in-out infinite; transform-origin: 118px 250px; }
+  .wing-right { animation: wingFlutter 3s ease-in-out infinite reverse; transform-origin: 202px 250px; }
+  .shine-anim { animation: shine 3s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<svg width="280" height="480" viewBox="0 0 280 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+
+    <!-- Body/neck glass - white pearl -->
+    <radialGradient id="bodyGlass" cx="35%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+      <stop offset="35%" stop-color="#f0f8ff" stop-opacity="0.88"/>
+      <stop offset="70%" stop-color="#ddeeff" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="#b8d8f0" stop-opacity="0.8"/>
+    </radialGradient>
+
+    <!-- Inner glow -->
+    <radialGradient id="bodyGlow" cx="38%" cy="32%" r="55%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Eye - light blue -->
+    <radialGradient id="eyeIris" cx="32%" cy="28%" r="65%">
+      <stop offset="0%" stop-color="#90caf9"/>
+      <stop offset="40%" stop-color="#42a5f5"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </radialGradient>
+
+    <!-- Wing gradient -->
+    <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f5" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#e0e0e0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#9e9e9e" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <!-- Leg gradient - orange -->
+    <linearGradient id="legGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+
+    <!-- Beak gradient -->
+    <linearGradient id="beakGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff8f00"/>
+      <stop offset="100%" stop-color="#e64a19"/>
+    </linearGradient>
+
+    <!-- Prosthetic leg gradient - metallic -->
+    <linearGradient id="prostheticGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0e0e0"/>
+      <stop offset="40%" stop-color="#9e9e9e"/>
+      <stop offset="100%" stop-color="#616161"/>
+    </linearGradient>
+
+    <!-- Shadow -->
+    <radialGradient id="shadowG" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0d47a1" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#0d47a1" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Blush -->
+    <radialGradient id="blushG" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffb3ba" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#ffb3ba" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Glow filter -->
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Fur/feather texture -->
+    <filter id="featherTex" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="11"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Wing shadow -->
+    <filter id="wingFilter">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#546e7a" flood-opacity="0.2"/>
+    </filter>
+
+  </defs>
+
+  <!-- Ground shadow -->
+  <ellipse cx="140" cy="468" rx="52" ry="10" fill="url(#shadowG)"/>
+
+  <g class="body-group">
+
+    <!-- LEGS -->
+    <!-- Right leg - extended to match prosthetic level -->
+    <line x1="155" y1="346" x2="152" y2="410" stroke="url(#legGrad)" stroke-width="7" stroke-linecap="round"/>
+    <line x1="152" y1="410" x2="148" y2="462" stroke="url(#legGrad)" stroke-width="5.5" stroke-linecap="round"/>
+    <!-- Right foot -->
+    <path d="M 148 462 Q 132 468 122 466" stroke="#e65100" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M 148 462 Q 140 472 130 474" stroke="#e65100" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M 148 462 Q 152 470 146 476" stroke="#e65100" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- Knee joint -->
+    <circle cx="152" cy="410" r="5.5" fill="#ff8f00" opacity="0.85"/>
+
+    <!-- Left leg - PARALYMPIC CARBON BLADE - like reference photo -->
+    <!-- Upper leg (real orange) -->
+    <line x1="128" y1="346" x2="126" y2="378" stroke="url(#legGrad)" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- Socket - top metal cup where blade connects to stump -->
+    <path d="M 114 372 Q 126 366 138 372 L 137 384 Q 126 388 115 384 Z"
+          fill="#2a2a2a" stroke="#3a3a3a" stroke-width="1"/>
+    <path d="M 115 372 Q 126 368 137 372" stroke="#5a5a5a" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- Metal connector joint in the middle (like in photo) -->
+    <!-- Upper carbon tube -->
+    <rect x="122" y="384" width="8" height="22" rx="3" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="0.8"/>
+    <rect x="123" y="385" width="2" height="20" rx="1" fill="#3a3a3a" opacity="0.6"/>
+
+    <!-- Metal pivot joint / connector -->
+    <ellipse cx="126" cy="407" rx="10" ry="7" fill="#4a4a4a" stroke="#2a2a2a" stroke-width="1"/>
+    <ellipse cx="126" cy="407" rx="6" ry="4" fill="#5a5a5a"/>
+    <circle cx="126" cy="407" r="2.5" fill="#2a2a2a"/>
+    <!-- Bolt sides -->
+    <circle cx="116" cy="407" r="2" fill="#3a3a3a" stroke="#555" stroke-width="0.5"/>
+    <circle cx="136" cy="407" r="2" fill="#3a3a3a" stroke="#555" stroke-width="0.5"/>
+
+    <!-- Lower carbon blade - straight down then curves forward at bottom -->
+    <path d="M 122 412
+             L 120 445
+             C 119 452, 118 458, 116 463
+             C 114 468, 110 470, 106 468
+             C 102 465, 102 460, 105 456
+             C 108 452, 113 450, 115 445
+             L 117 412 Z"
+          fill="#111118"/>
+    <!-- Carbon blade highlight -->
+    <path d="M 123 414 L 121 447 C 120 454, 118 460, 116 464"
+          stroke="#3a3a50" stroke-width="1.5" fill="none" opacity="0.8" stroke-linecap="round"/>
+    <!-- Blade shine -->
+    <path d="M 124 415 L 122 447 C 121 453, 119 459, 117 463"
+          stroke="white" stroke-width="1" fill="none" opacity="0.15" stroke-linecap="round"/>
+
+    <!-- Bottom foot/pad -->
+    <path d="M 100 466 C 102 462, 108 460, 116 462 C 122 463, 125 466, 122 469 C 118 472, 108 472, 102 470 Z"
+          fill="#0a0a14" stroke="#222" stroke-width="0.8"/>
+    <!-- Foot pad shine -->
+    <path d="M 103 466 C 107 463, 114 462, 120 464" stroke="white" stroke-width="0.8" fill="none" opacity="0.15" stroke-linecap="round"/>
+
+    <!-- WINGS -->
+    <!-- Left wing -->
+    <g class="wing-left" filter="url(#wingFilter)">
+      <path d="M 118 245
+               C 100 248, 80 258, 65 272
+               C 52 284, 48 300, 55 312
+               C 60 320, 72 322, 84 316
+               C 96 310, 108 295, 116 278
+               C 122 264, 122 252, 118 245 Z"
+            fill="url(#wingGrad)" stroke="#b0bec5" stroke-width="0.8" opacity="0.9"/>
+      <!-- Wing feather tips - dark grey -->
+      <path d="M 55 310 Q 48 318 44 328 Q 50 322 56 316" fill="#607d8b" opacity="0.7"/>
+      <path d="M 62 318 Q 56 328 54 338 Q 60 330 66 322" fill="#607d8b" opacity="0.65"/>
+      <path d="M 72 322 Q 68 333 67 343 Q 72 334 76 325" fill="#546e7a" opacity="0.6"/>
+      <!-- Wing vein -->
+      <path d="M 116 250 C 98 268, 72 290, 58 314" stroke="white" stroke-width="1" fill="none" opacity="0.3" stroke-linecap="round"/>
+    </g>
+
+    <!-- Right wing - small, tucked -->
+    <g class="wing-right" filter="url(#wingFilter)">
+      <path d="M 162 245
+               C 178 250, 196 260, 208 274
+               C 218 286, 220 302, 212 314
+               C 206 322, 194 322, 183 315
+               C 172 308, 163 294, 161 278
+               C 159 264, 160 252, 162 245 Z"
+            fill="url(#wingGrad)" stroke="#b0bec5" stroke-width="0.8" opacity="0.9"/>
+      <!-- Wing feather tips -->
+      <path d="M 212 312 Q 218 320 220 330 Q 214 322 208 316" fill="#607d8b" opacity="0.7"/>
+      <path d="M 203 320 Q 208 330 208 340 Q 202 332 198 324" fill="#546e7a" opacity="0.6"/>
+      <!-- Wing vein -->
+      <path d="M 163 250 C 180 268, 204 290, 216 314" stroke="white" stroke-width="1" fill="none" opacity="0.3" stroke-linecap="round"/>
+    </g>
+
+    <!-- BODY - round, compact -->
+    <ellipse cx="140" cy="290" rx="52" ry="58" fill="url(#bodyGlass)" filter="url(#featherTex)" stroke="#ddeeff" stroke-width="1"/>
+    <ellipse cx="140" cy="290" rx="52" ry="58" fill="url(#bodyGlow)"/>
+    <!-- Body shine -->
+    <ellipse cx="120" cy="262" rx="14" ry="20" fill="white" opacity="0.3" transform="rotate(-15 120 262)" class="shine-anim"/>
+    <!-- Chest feather detail -->
+    <path d="M 115 295 Q 140 308 165 295" stroke="#cce0f0" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M 110 312 Q 140 326 170 312" stroke="#cce0f0" stroke-width="1" fill="none" opacity="0.4"/>
+
+    <!-- NECK - long, elegant -->
+    <path d="M 118 238 C 112 210, 118 180, 128 158 C 132 148, 136 140, 140 132"
+          stroke="url(#bodyGlass)" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <path d="M 118 238 C 112 210, 118 180, 128 158 C 132 148, 136 140, 140 132"
+          stroke="url(#bodyGlow)" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <!-- Neck shine -->
+    <path d="M 122 232 C 118 206, 122 178, 132 156"
+          stroke="white" stroke-width="6" fill="none" opacity="0.2" stroke-linecap="round"/>
+
+    <!-- HEAD -->
+    <ellipse cx="148" cy="128" rx="42" ry="40" fill="url(#bodyGlass)" filter="url(#featherTex)" stroke="#ddeeff" stroke-width="1"/>
+    <ellipse cx="148" cy="128" rx="42" ry="40" fill="url(#bodyGlow)"/>
+    <!-- Head shine -->
+    <ellipse cx="132" cy="112" rx="12" ry="15" fill="white" opacity="0.32" transform="rotate(-15 132 112)"/>
+    <!-- Head tuft - small feathers on top -->
+    <path d="M 148 90 Q 144 78 140 70" stroke="#e0e0e0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M 152 88 Q 152 75 152 66" stroke="#e0e0e0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 155 90 Q 160 78 164 70" stroke="#d0d0d0" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- BLUSH -->
+    <ellipse cx="126" cy="148" rx="16" ry="10" fill="url(#blushG)"/>
+    <ellipse cx="170" cy="148" rx="16" ry="10" fill="url(#blushG)"/>
+
+    <!-- LEFT EYE - large blue -->
+    <g class="left-eye">
+      <ellipse cx="134" cy="130" rx="19" ry="20" fill="white" opacity="0.97"/>
+      <ellipse cx="135" cy="132" rx="14" ry="15" fill="url(#eyeIris)"/>
+      <ellipse cx="135" cy="133" rx="8" ry="9" fill="#0a1a3a"/>
+      <!-- Shine -->
+      <ellipse cx="129" cy="124" rx="5" ry="6" fill="white" opacity="0.9"/>
+      <circle cx="142" cy="139" r="2" fill="white" opacity="0.5"/>
+      <ellipse cx="134" cy="143" rx="5" ry="1.8" fill="white" opacity="0.2"/>
+    </g>
+
+    <!-- RIGHT EYE - large blue -->
+    <g class="right-eye">
+      <ellipse cx="164" cy="130" rx="19" ry="20" fill="white" opacity="0.97"/>
+      <ellipse cx="165" cy="132" rx="14" ry="15" fill="url(#eyeIris)"/>
+      <ellipse cx="165" cy="133" rx="8" ry="9" fill="#0a1a3a"/>
+      <ellipse cx="159" cy="124" rx="5" ry="6" fill="white" opacity="0.9"/>
+      <circle cx="172" cy="139" r="2" fill="white" opacity="0.5"/>
+      <ellipse cx="164" cy="143" rx="5" ry="1.8" fill="white" opacity="0.2"/>
+    </g>
+
+    <!-- BEAK - moved down, starts from below eyes at mouth area -->
+    <path d="M 162 152 C 180 154, 215 160, 240 165 C 243 166, 243 169, 240 170 C 215 172, 180 167, 162 164 Z"
+          fill="url(#beakGrad)" stroke="#e64a19" stroke-width="0.5"/>
+    <!-- Beak line -->
+    <path d="M 164 158 C 182 160, 214 165, 238 168"
+          stroke="#bf360c" stroke-width="0.8" fill="none" opacity="0.4"/>
+    <!-- Beak nostril -->
+    <ellipse cx="182" cy="157" rx="4" ry="2" fill="#bf360c" opacity="0.35"/>
+
+    <!-- Bokeh -->
+    <circle cx="40" cy="260" r="4" fill="white" opacity="0.18" filter="url(#glow)"/>
+    <circle cx="240" cy="280" r="5" fill="white" opacity="0.15" filter="url(#glow)"/>
+    <circle cx="35" cy="320" r="3" fill="white" opacity="0.12"/>
+    <circle cx="245" cy="340" r="3" fill="white" opacity="0.12"/>
+
+  </g>
+</svg>
+
+<p class="label">Лелека</p>
+
+</body>
+</html>

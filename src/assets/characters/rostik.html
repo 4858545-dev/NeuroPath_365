@@ -1,1 +1,215 @@
-<!-- TODO: insert SVG — Ростік, паросток-рослина, напівпрозоре зелене тіло, великі аніме-очі -->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ростік</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: radial-gradient(ellipse at 40% 30%, #c8e6c9 0%, #81c784 40%, #388e3c 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    gap: 40px;
+    padding: 40px 20px;
+  }
+  .label {
+    color: white;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-top: -30px;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+  }
+  @keyframes leafSway {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  @keyframes shine {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  .rostik-group {
+    animation: bounce 3s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+  .leaves-group {
+    animation: leafSway 3s ease-in-out infinite;
+    transform-origin: 130px 95px;
+  }
+  .shine-anim {
+    animation: shine 2.5s ease-in-out infinite;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <svg width="260" height="340" viewBox="0 0 260 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bodyGlass" cx="35%" cy="28%" r="70%">
+        <stop offset="0%" stop-color="#f0fffe" stop-opacity="0.95"/>
+        <stop offset="30%" stop-color="#d0f0ee" stop-opacity="0.75"/>
+        <stop offset="70%" stop-color="#a8ddd8" stop-opacity="0.55"/>
+        <stop offset="100%" stop-color="#7cc8c0" stop-opacity="0.7"/>
+      </radialGradient>
+      <radialGradient id="bodyRim" cx="50%" cy="50%" r="50%">
+        <stop offset="75%" stop-color="transparent"/>
+        <stop offset="100%" stop-color="#90cac4" stop-opacity="0.8"/>
+      </radialGradient>
+      <radialGradient id="innerGlow" cx="40%" cy="35%" r="55%">
+        <stop offset="0%" stop-color="white" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="white" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#a5d6a7"/>
+        <stop offset="40%" stop-color="#4caf50"/>
+        <stop offset="100%" stop-color="#2e7d32"/>
+      </linearGradient>
+      <linearGradient id="leafGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#b9f0b0"/>
+        <stop offset="40%" stop-color="#43a047"/>
+        <stop offset="100%" stop-color="#1b5e20"/>
+      </linearGradient>
+      <linearGradient id="stemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#2e7d32"/>
+        <stop offset="50%" stop-color="#66bb6a"/>
+        <stop offset="100%" stop-color="#388e3c"/>
+      </linearGradient>
+      <linearGradient id="limbGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#e0faf8" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#90cac4" stop-opacity="0.7"/>
+      </linearGradient>
+      <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#1a4a1a" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#1a4a1a" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <filter id="leafFilter" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#1b5e20" flood-opacity="0.3"/>
+      </filter>
+    </defs>
+
+    <!-- Ground shadow -->
+    <ellipse cx="130" cy="318" rx="42" ry="10" fill="url(#shadowGrad)"/>
+
+    <g class="rostik-group">
+      <!-- Left leg -->
+      <path d="M110 272 Q104 285 100 300 Q98 308 103 310 Q108 312 111 304 Q114 292 118 278"
+            fill="url(#limbGlass)" stroke="#90cac4" stroke-width="1"/>
+      <ellipse cx="103" cy="309" rx="10" ry="6" fill="url(#limbGlass)" stroke="#90cac4" stroke-width="1"/>
+
+      <!-- Right leg -->
+      <path d="M150 272 Q156 285 160 300 Q162 308 157 310 Q152 312 149 304 Q146 292 142 278"
+            fill="url(#limbGlass)" stroke="#90cac4" stroke-width="1"/>
+      <ellipse cx="157" cy="309" rx="10" ry="6" fill="url(#limbGlass)" stroke="#90cac4" stroke-width="1"/>
+
+      <!-- Left arm -->
+      <path d="M82 195 Q68 182 55 170 Q48 163 50 157 Q52 151 58 155 Q68 162 80 174 Q92 186 96 200"
+            fill="url(#limbGlass)" stroke="#90cac4" stroke-width="1.2"/>
+      <path d="M50 157 Q45 150 47 145" stroke="#a8ddd8" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <path d="M52 153 Q46 147 49 142" stroke="#a8ddd8" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <path d="M55 150 Q51 143 54 139" stroke="#a8ddd8" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+
+      <!-- Right arm -->
+      <path d="M178 195 Q192 182 205 170 Q212 163 210 157 Q208 151 202 155 Q192 162 180 174 Q168 186 164 200"
+            fill="url(#limbGlass)" stroke="#90cac4" stroke-width="1.2"/>
+      <path d="M210 157 Q215 150 213 145" stroke="#a8ddd8" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <path d="M208 153 Q214 147 211 142" stroke="#a8ddd8" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <path d="M205 150 Q209 143 206 139" stroke="#a8ddd8" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+
+      <!-- Main body -->
+      <path d="M130 95 C 175 95, 198 125, 198 168 C 198 218, 170 268, 130 275 C 90 268, 62 218, 62 168 C 62 125, 85 95, 130 95 Z"
+            fill="url(#bodyGlass)" stroke="#b0e0dc" stroke-width="1.5"/>
+      <path d="M130 95 C 175 95, 198 125, 198 168 C 198 218, 170 268, 130 275 C 90 268, 62 218, 62 168 C 62 125, 85 95, 130 95 Z"
+            fill="url(#innerGlow)"/>
+
+      <!-- Body shine -->
+      <ellipse cx="90" cy="138" rx="16" ry="26"
+               fill="white" opacity="0.3"
+               transform="rotate(-20 90 138)"
+               class="shine-anim"/>
+
+      <!-- Refraction line -->
+      <path d="M170 120 Q180 150 175 190"
+            stroke="white" stroke-width="2" stroke-linecap="round"
+            opacity="0.2" fill="none"/>
+
+      <!-- Blush -->
+      <ellipse cx="94" cy="200" rx="16" ry="10" fill="#ffb3ba" opacity="0.35"/>
+      <ellipse cx="166" cy="200" rx="16" ry="10" fill="#ffb3ba" opacity="0.35"/>
+
+      <!-- LEFT EYE -->
+      <ellipse cx="108" cy="182" rx="19" ry="21" fill="white" opacity="0.95"/>
+      <ellipse cx="108" cy="184" rx="14" ry="16" fill="#1a1a2e"/>
+      <ellipse cx="108" cy="185" rx="10" ry="12" fill="#2d3561"/>
+      <ellipse cx="102" cy="177" rx="5" ry="6" fill="white" opacity="0.9"/>
+      <circle cx="116" cy="190" r="2.5" fill="white" opacity="0.6"/>
+      <ellipse cx="108" cy="196" rx="6" ry="2" fill="white" opacity="0.2"/>
+
+      <!-- RIGHT EYE -->
+      <ellipse cx="152" cy="182" rx="19" ry="21" fill="white" opacity="0.95"/>
+      <ellipse cx="152" cy="184" rx="14" ry="16" fill="#1a1a2e"/>
+      <ellipse cx="152" cy="185" rx="10" ry="12" fill="#2d3561"/>
+      <ellipse cx="146" cy="177" rx="5" ry="6" fill="white" opacity="0.9"/>
+      <circle cx="160" cy="190" r="2.5" fill="white" opacity="0.6"/>
+      <ellipse cx="152" cy="196" rx="6" ry="2" fill="white" opacity="0.2"/>
+
+      <!-- Smile -->
+      <path d="M112 216 Q130 232 148 216"
+            stroke="#3a3a5a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M116 218 Q130 228 144 218"
+            stroke="#6a5a8a" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4"/>
+
+      <!-- Stem -->
+      <rect x="126" y="70" width="8" height="32" rx="4" fill="url(#stemGrad)"/>
+      <rect x="127" y="72" width="2" height="26" rx="1" fill="white" opacity="0.4"/>
+
+      <!-- Leaves -->
+      <g class="leaves-group" filter="url(#leafFilter)">
+        <path d="M130 75 C 120 65, 85 50, 75 30 C 72 22, 78 15, 88 20 C 105 28, 122 55, 128 75 Z"
+              fill="url(#leafGrad1)"/>
+        <path d="M128 74 C 115 60, 95 40, 83 25"
+              stroke="#2e7d32" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/>
+        <path d="M118 60 C 112 52, 100 40, 92 30"
+              stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.35"/>
+        <path d="M130 75 C 140 65, 175 50, 185 30 C 188 22, 182 15, 172 20 C 155 28, 138 55, 132 75 Z"
+              fill="url(#leafGrad2)"/>
+        <path d="M132 74 C 145 60, 165 40, 177 25"
+              stroke="#2e7d32" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/>
+        <path d="M142 60 C 148 52, 160 40, 168 30"
+              stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.35"/>
+      </g>
+
+      <!-- Bokeh particles -->
+      <circle cx="45" cy="160" r="5" fill="white" opacity="0.25" filter="url(#glow)"/>
+      <circle cx="38" cy="220" r="3" fill="white" opacity="0.2"/>
+      <circle cx="215" cy="175" r="4" fill="white" opacity="0.22" filter="url(#glow)"/>
+      <circle cx="222" cy="235" r="6" fill="white" opacity="0.15"/>
+      <circle cx="60" cy="270" r="3" fill="white" opacity="0.18"/>
+      <circle cx="200" cy="260" r="2.5" fill="white" opacity="0.2"/>
+    </g>
+  </svg>
+  <p class="label">Ростік</p>
+</div>
+</body>
+</html>

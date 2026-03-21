@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: var(--space-md);
+  padding: 0 var(--space-md) var(--space-xl);
   gap: var(--space-md);
   background: var(--color-cream);
 }
@@ -35,9 +35,10 @@
 }
 
 .title {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: var(--text-xl);
+  font-weight: var(--font-extrabold);
   color: var(--color-text);
+  text-align: center;
 }
 
 /* порожній div для центрування заголовку */
@@ -51,24 +52,24 @@
 
 .progress {
   display: flex;
-  gap: var(--space-sm);
+  gap: var(--progress-gap);
   flex-shrink: 0;
 }
 
 .segment {
   flex: 1;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background: #ddd5c8;
+  height: var(--progress-height);
+  border-radius: var(--progress-radius);
+  background: var(--color-segment-next);
   transition: background 0.3s var(--ease-smooth);
 }
 
 .segmentActive {
-  background: var(--color-yellow);
+  background: var(--color-segment-active);
 }
 
 .segmentDone {
-  background: var(--color-green-dark);
+  background: var(--color-segment-done);
 }
 
 /* ── Планшет з казкою ── */
@@ -77,12 +78,12 @@
   flex: 1;
   min-height: 0; /* дозволяє flex-дитині скролитись */
   overflow-y: auto;
-  background: var(--color-white);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  background: var(--tablet-bg);
+  border-radius: var(--tablet-radius);
+  box-shadow: var(--tablet-shadow);
   display: flex;
   flex-direction: column;
-  padding: var(--space-lg) var(--space-md) var(--space-md);
+  padding: var(--tablet-padding);
 }
 
 .storyContent {
@@ -90,8 +91,8 @@
 }
 
 .para {
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: var(--text-md);
+  line-height: var(--leading-loose);
   color: var(--color-text);
   margin-bottom: var(--space-md);
 }
@@ -132,19 +133,19 @@
 .nextBtn {
   flex-shrink: 0;
   width: 100%;
-  padding: 15px var(--space-lg);
-  background: var(--color-green-dark);
-  color: var(--color-white);
-  font-size: 16px;
-  font-weight: 800;
-  border-radius: var(--radius-full);
-  box-shadow: 0 4px 0 #5a9456;
+  height: var(--btn-primary-height);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-color);
+  font-size: var(--btn-primary-size);
+  font-weight: var(--btn-primary-font);
+  border-radius: var(--btn-primary-radius);
+  box-shadow: var(--btn-primary-shadow);
   transition: transform 0.1s var(--ease-smooth), box-shadow 0.1s var(--ease-smooth);
 }
 
 .nextBtn:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 #5a9456;
+  box-shadow: 0 2px 0 #5a9a55;
 }
 
 /* ── Фаза 2: Вправа ── */

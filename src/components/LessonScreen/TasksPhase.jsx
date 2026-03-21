@@ -46,6 +46,117 @@ function TapCorrect({ data, onDone }) {
   )
 }
 
+// ── Dandelion ─────────────────────────────────────────────
+
+const PUFF_POSITIONS = [
+  { id: 'p1', cx: 78,  cy: 215 },  // left
+  { id: 'p2', cx: 99,  cy: 164 },  // top-left
+  { id: 'p3', cx: 150, cy: 143 },  // top
+  { id: 'p4', cx: 201, cy: 164 },  // top-right
+  { id: 'p5', cx: 222, cy: 215 },  // right
+]
+
+function Dandelion({ data, onDone }) {
+  const [tapped,  setTapped]  = useState(new Set())
+  const [qIndex,  setQIndex]  = useState(null)
+  const [ready,   setReady]   = useState(false)
+  const total = PUFF_POSITIONS.length
+
+  useEffect(() => { setReady(true) }, [])
+
+  function tapPuff(id) {
+    if (tapped.has(id) || qIndex !== null) return
+    const next = new Set(tapped)
+    next.add(id)
+    setTapped(next)
+    if (next.size === total) {
+      setTimeout(() => setQIndex(0), 800)
+    }
+  }
+
+  function nextQ() {
+    if (qIndex + 1 < data.questions.length) {
+      setQIndex(q => q + 1)
+    } else {
+      onDone()
+    }
+  }
+
+  if (qIndex !== null) {
+    return <TapCorrect key={qIndex} data={data.questions[qIndex]} onDone={nextQ} />
+  }
+
+  const HCX = 150, HCY = 215, HR = 30
+
+  return (
+    <div className={s.dandelion}>
+      <p className={s.instruction}>{data.instruction}</p>
+      <svg
+        viewBox="0 0 300 290"
+        width="100%"
+        className={s.dandelionSvg}
+      >
+        {/* Небо */}
+        <rect width="300" height="290" fill="#deeef8" rx="12" />
+        {/* Трава */}
+        <rect x="0" y="268" width="300" height="22" rx="4" fill="#c8e09e" />
+
+        {/* Стебло */}
+        <line x1={HCX} y1={HCY + HR} x2={HCX} y2={268}
+          stroke="#8ab870" strokeWidth="4" strokeLinecap="round" />
+
+        {/* Голівка */}
+        <circle cx={HCX} cy={HCY} r={HR}
+          fill="#f5f0e8" stroke="#c4a882" strokeWidth="2" />
+
+        {/* Пушинки */}
+        {PUFF_POSITIONS.map(({ id, cx, cy }) => {
+          const gone = tapped.has(id)
+          return (
+            <g
+              key={id}
+              style={{
+                transform: gone
+                  ? `translate(${cx}px, ${cy - 200}px)`
+                  : `translate(${cx}px, ${cy}px)`,
+                opacity: gone ? 0 : 1,
+                transition: ready
+                  ? 'transform 600ms ease-out, opacity 600ms ease-out'
+                  : 'none',
+                pointerEvents: gone ? 'none' : 'auto',
+                cursor: 'pointer',
+              }}
+              onClick={() => tapPuff(id)}
+              onTouchEnd={(e) => { e.preventDefault(); tapPuff(id) }}
+            >
+              {Array.from({ length: 8 }, (_, i) => {
+                const a = (i / 8) * 2 * Math.PI
+                return (
+                  <line key={i}
+                    x1={Math.cos(a) * 14} y1={Math.sin(a) * 14}
+                    x2={Math.cos(a) * 30} y2={Math.sin(a) * 30}
+                    stroke="#d4c9b8" strokeWidth="1.5" strokeLinecap="round" />
+                )
+              })}
+              <circle cx={0} cy={0} r={12}
+                fill="white" stroke="#ddd5c8" strokeWidth="1.5" />
+            </g>
+          )
+        })}
+
+        {/* Лічильник */}
+        <rect x="242" y="253" width="46" height="18" rx="5" fill="rgba(255,255,255,0.85)" />
+        <text x="265" y="266"
+          textAnchor="middle" fontSize="12" fontWeight="800"
+          fontFamily="Nunito, sans-serif" fill="#8b7355"
+          style={{ userSelect: 'none' }}>
+          {tapped.size} / {total}
+        </text>
+      </svg>
+    </div>
+  )
+}
+
 // ── TapSequence ───────────────────────────────────────────
 
 function TapSequence({ data, onDone }) {
@@ -406,6 +517,7 @@ export function TasksPhase({ phase, onComplete }) {
         <span className={s.taskNum}>Завдання {taskIndex + 1} з {tasks.length}</span>
       </div>
       <h3 className={s.taskTitle}>{task.title}</h3>
+      {task.variant === 'dandelion'    && <Dandelion   key={taskIndex} data={task} onDone={nextTask} />}
       {task.variant === 'tap_sequence' && <TapSequence key={taskIndex} data={task} onDone={nextTask} />}
       {task.variant === 'drag_match'   && <DragMatch   key={taskIndex} data={task} onDone={nextTask} />}
       {task.variant === 'tap_letter'   && <TapLetter   key={taskIndex} data={task} onDone={nextTask} />}
