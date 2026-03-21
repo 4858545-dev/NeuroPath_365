@@ -18,9 +18,20 @@
   line-height: 1.6;
 }
 
+.pretaskScene {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, #d4ecf7 0%, #e8f5e9 60%, #c8e09e 100%);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
 .pretaskChar {
   width: 160px;
   height: auto;
+  display: block;
 }
 
 .pretaskBtn {

@@ -1,4 +1,4 @@
-export function KulbabkaSvg({ className }) {
+export function KulbabkaSvg({ className, noSeeds = false }) {
   return (
     <svg
       className={className}
@@ -14,7 +14,7 @@ export function KulbabkaSvg({ className }) {
           50% { transform: rotate(2deg) translateY(-8px); }
         }
         @keyframes kb-floatSeed {
-          0%   { opacity: 0.8; }
+          0%   { transform: translate(0, 0) rotate(0deg); opacity: 0.8; }
           100% { transform: translate(var(--kb-dx), var(--kb-dy)) rotate(var(--kb-dr)); opacity: 0; }
         }
         @keyframes kb-eyeBlink {
@@ -25,11 +25,17 @@ export function KulbabkaSvg({ className }) {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.04); }
         }
-        .kb-main { animation: kb-sway 4s ease-in-out infinite; transform-origin: 160px 310px; }
-        .kb-puff { animation: kb-puffPulse 4s ease-in-out infinite; transform-origin: 160px 155px; }
+        .kb-main  { animation: kb-sway 4s ease-in-out infinite; transform-origin: 160px 310px; }
+        .kb-puff  { animation: kb-puffPulse 4s ease-in-out infinite; transform-origin: 160px 155px; }
         .kb-eye-l { animation: kb-eyeBlink 6s ease-in-out infinite; transform-origin: 138px 168px; }
         .kb-eye-r { animation: kb-eyeBlink 6s ease-in-out infinite 0.15s; transform-origin: 182px 168px; }
-        .kb-seed { animation: kb-floatSeed 4s ease-in infinite; }
+        .kb-seed  { animation: kb-floatSeed 4s ease-in infinite; }
+        .kb-s1 { --kb-dx: -30px; --kb-dy: -60px; --kb-dr: -20deg; animation-delay: 0s;   animation-duration: 5s;   }
+        .kb-s2 { --kb-dx:  40px; --kb-dy: -70px; --kb-dr:  15deg; animation-delay: 1s;   animation-duration: 4.5s; }
+        .kb-s3 { --kb-dx: -50px; --kb-dy: -40px; --kb-dr: -30deg; animation-delay: 2s;   animation-duration: 6s;   }
+        .kb-s4 { --kb-dx:  60px; --kb-dy: -50px; --kb-dr:  25deg; animation-delay: 0.5s; animation-duration: 5.5s; }
+        .kb-s5 { --kb-dx:  20px; --kb-dy: -80px; --kb-dr:  10deg; animation-delay: 1.5s; animation-duration: 4s;   }
+        .kb-s6 { --kb-dx: -40px; --kb-dy: -65px; --kb-dr: -15deg; animation-delay: 2.5s; animation-duration: 5s;   }
       `}</style>
 
       <defs>
@@ -94,10 +100,12 @@ export function KulbabkaSvg({ className }) {
       <ellipse cx="160" cy="408" rx="48" ry="10" fill="url(#kb-shadowG)"/>
 
       <g className="kb-main">
+
         {/* Stem */}
         <path d="M156 240 Q153 270 154 310 Q154 340 155 370 Q155 378 160 380 Q165 378 165 370 Q166 340 166 310 Q167 270 164 240"
               fill="url(#kb-stemG)" stroke="#2e7d32" strokeWidth="0.5"/>
-        <path d="M157 245 Q155 280 156 368" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.3"/>
+        <path d="M157 245 Q155 280 156 368"
+              stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.3"/>
 
         {/* Leaves */}
         <g filter="url(#kb-leafFilter)">
@@ -163,10 +171,128 @@ export function KulbabkaSvg({ className }) {
                 stroke="#2e7d32" strokeWidth="0.8" fill="none" opacity="0.45" strokeLinecap="round"/>
         </g>
 
-        {/* Puff head */}
+        {/* Puff group */}
         <g className="kb-puff">
 
-          {/* Head */}
+          {!noSeeds && (
+          <><ellipse cx="160" cy="158" rx="100" ry="95" fill="white" opacity="0.18" filter="url(#kb-puffEdge)"/>
+          <ellipse cx="160" cy="158" rx="88"  ry="83" fill="white" opacity="0.22" filter="url(#kb-puffEdge)"/>
+
+          {/* Seed stems */}
+          <g opacity="0.85" stroke="#d8d0b0" strokeLinecap="round">
+            <line x1="160" y1="90"  x2="160" y2="48"  strokeWidth="1.2"/>
+            <line x1="178" y1="93"  x2="192" y2="52"  strokeWidth="1"/>
+            <line x1="142" y1="93"  x2="128" y2="52"  strokeWidth="1"/>
+            <line x1="194" y1="103" x2="218" y2="66"  strokeWidth="1"/>
+            <line x1="126" y1="103" x2="102" y2="66"  strokeWidth="1"/>
+            <line x1="218" y1="130" x2="252" y2="108" strokeWidth="1"/>
+            <line x1="102" y1="130" x2="68"  y2="108" strokeWidth="1"/>
+            <line x1="228" y1="158" x2="268" y2="148" strokeWidth="1"/>
+            <line x1="92"  y1="158" x2="52"  y2="148" strokeWidth="1"/>
+            <line x1="222" y1="185" x2="260" y2="185" strokeWidth="1"/>
+            <line x1="98"  y1="185" x2="60"  y2="185" strokeWidth="1"/>
+            <line x1="210" y1="210" x2="242" y2="225" strokeWidth="1"/>
+            <line x1="110" y1="210" x2="78"  y2="225" strokeWidth="1"/>
+            <line x1="185" y1="228" x2="205" y2="250" strokeWidth="1"/>
+            <line x1="135" y1="228" x2="115" y2="250" strokeWidth="1"/>
+          </g>
+
+          {/* Seed heads */}
+          <g filter="url(#kb-glow)">
+            <circle cx="160" cy="46" r="8" fill="white" opacity="0.95"/>
+            <circle cx="160" cy="46" r="5" fill="white" opacity="1"/>
+            <line x1="160" y1="38" x2="160" y2="34" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+            <line x1="168" y1="40" x2="172" y2="37" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+            <line x1="152" y1="40" x2="148" y2="37" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+            <line x1="166" y1="46" x2="170" y2="46" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="154" y1="46" x2="150" y2="46" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="193" cy="50" r="7" fill="white" opacity="0.9"/>
+            <circle cx="193" cy="50" r="4" fill="white" opacity="1"/>
+            <line x1="193" y1="43" x2="193" y2="39" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+            <line x1="200" y1="45" x2="204" y2="42" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="186" y1="45" x2="182" y2="42" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="127" cy="50" r="7" fill="white" opacity="0.9"/>
+            <circle cx="127" cy="50" r="4" fill="white" opacity="1"/>
+            <line x1="127" y1="43" x2="127" y2="39" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+            <line x1="134" y1="45" x2="138" y2="42" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="120" y1="45" x2="116" y2="42" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="220" cy="64" r="7.5" fill="white" opacity="0.88"/>
+            <circle cx="220" cy="64" r="4.5" fill="white" opacity="1"/>
+            <line x1="220" y1="56" x2="220" y2="52" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+            <line x1="228" y1="60" x2="232" y2="57" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="212" y1="60" x2="208" y2="57" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="100" cy="64" r="7.5" fill="white" opacity="0.88"/>
+            <circle cx="100" cy="64" r="4.5" fill="white" opacity="1"/>
+            <line x1="100" y1="56" x2="100" y2="52" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+            <line x1="108" y1="60" x2="112" y2="57" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="92"  y1="60" x2="88"  y2="57" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="254" cy="106" r="7" fill="white" opacity="0.82"/>
+            <circle cx="254" cy="106" r="4" fill="white" opacity="1"/>
+            <line x1="262" y1="103" x2="266" y2="101" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="254" y1="98"  x2="254" y2="94"  stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="66" cy="106" r="7" fill="white" opacity="0.82"/>
+            <circle cx="66" cy="106" r="4" fill="white" opacity="1"/>
+            <line x1="58" y1="103" x2="54" y2="101" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="66" y1="98"  x2="66" y2="94"  stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="270" cy="147" r="6.5" fill="white" opacity="0.78"/>
+            <circle cx="270" cy="147" r="4"   fill="white" opacity="1"/>
+            <line x1="278" y1="144" x2="283" y2="142" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="270" y1="139" x2="270" y2="135" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="50" cy="147" r="6.5" fill="white" opacity="0.78"/>
+            <circle cx="50" cy="147" r="4"   fill="white" opacity="1"/>
+            <line x1="42" y1="144" x2="37" y2="142" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+            <line x1="50" y1="139" x2="50" y2="135" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="262" cy="184" r="6.5" fill="white" opacity="0.78"/>
+            <circle cx="262" cy="184" r="4"   fill="white" opacity="1"/>
+            <line x1="270" y1="180" x2="275" y2="177" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="58" cy="184" r="6.5" fill="white" opacity="0.78"/>
+            <circle cx="58" cy="184" r="4"   fill="white" opacity="1"/>
+            <line x1="50" y1="180" x2="45" y2="177" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+
+            <circle cx="244" cy="224" r="6"   fill="white" opacity="0.72"/>
+            <circle cx="244" cy="224" r="3.5" fill="white" opacity="1"/>
+            <line x1="252" y1="220" x2="256" y2="217" stroke="white" strokeWidth="0.7" opacity="0.6"/>
+
+            <circle cx="76" cy="224" r="6"   fill="white" opacity="0.72"/>
+            <circle cx="76" cy="224" r="3.5" fill="white" opacity="1"/>
+            <line x1="68" y1="220" x2="64" y2="217" stroke="white" strokeWidth="0.7" opacity="0.6"/>
+
+            <circle cx="207" cy="252" r="5.5" fill="white" opacity="0.68"/>
+            <circle cx="207" cy="252" r="3.5" fill="white" opacity="1"/>
+
+            <circle cx="113" cy="252" r="5.5" fill="white" opacity="0.68"/>
+            <circle cx="113" cy="252" r="3.5" fill="white" opacity="1"/>
+          </g>
+
+          {/* Seed base dots */}
+          <g fill="url(#kb-seedDot)" opacity="0.6">
+            <circle cx="160" cy="90"  r="3"/>
+            <circle cx="178" cy="93"  r="2.5"/>
+            <circle cx="142" cy="93"  r="2.5"/>
+            <circle cx="194" cy="103" r="2.5"/>
+            <circle cx="126" cy="103" r="2.5"/>
+            <circle cx="218" cy="130" r="2"/>
+            <circle cx="102" cy="130" r="2"/>
+            <circle cx="228" cy="158" r="2"/>
+            <circle cx="92"  cy="158" r="2"/>
+            <circle cx="222" cy="185" r="2"/>
+            <circle cx="98"  cy="185" r="2"/>
+            <circle cx="210" cy="210" r="2"/>
+            <circle cx="110" cy="210" r="2"/>
+          </g>
+          </>)}
+
+          {/* Puff body */}
           <ellipse cx="160" cy="162" rx="76" ry="72" fill="url(#kb-puffGrad)" filter="url(#kb-furTex)"/>
           <ellipse cx="160" cy="162" rx="76" ry="72" fill="url(#kb-puffGlow)"/>
           <ellipse cx="135" cy="135" rx="22" ry="18" fill="white" opacity="0.35" transform="rotate(-15 135 135)"/>
@@ -205,7 +331,41 @@ export function KulbabkaSvg({ className }) {
           <circle cx="160" cy="196" r="3" fill="#c8906a" opacity="0.55"/>
           <path d="M144 208 Q160 224 176 208" stroke="#5a3a1a" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
           <path d="M148 210 Q160 220 172 210" stroke="#8a6a3a" strokeWidth="1"   strokeLinecap="round" fill="none" opacity="0.4"/>
+
         </g>
+
+        {/* Floating seeds */}
+        {!noSeeds && (<><g className="kb-seed kb-s1">
+          <line x1="72" y1="118" x2="72" y2="100" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+          <circle cx="72" cy="99" r="3.5" fill="white" opacity="0.75" filter="url(#kb-glow)"/>
+        </g>
+        <g className="kb-seed kb-s2">
+          <line x1="248" y1="105" x2="248" y2="88" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+          <circle cx="248" cy="87" r="3" fill="white" opacity="0.7" filter="url(#kb-glow)"/>
+        </g>
+        <g className="kb-seed kb-s3">
+          <line x1="55" y1="165" x2="55" y2="148" stroke="white" strokeWidth="0.8" opacity="0.65"/>
+          <circle cx="55" cy="147" r="3" fill="white" opacity="0.65" filter="url(#kb-glow)"/>
+        </g>
+        <g className="kb-seed kb-s4">
+          <line x1="268" y1="160" x2="268" y2="143" stroke="white" strokeWidth="0.8" opacity="0.65"/>
+          <circle cx="268" cy="142" r="3" fill="white" opacity="0.65" filter="url(#kb-glow)"/>
+        </g>
+        <g className="kb-seed kb-s5">
+          <line x1="160" y1="44" x2="160" y2="28" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+          <circle cx="160" cy="27" r="3.5" fill="white" opacity="0.7" filter="url(#kb-glow)"/>
+        </g>
+        <g className="kb-seed kb-s6">
+          <line x1="112" y1="250" x2="112" y2="234" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+          <circle cx="112" cy="233" r="2.5" fill="white" opacity="0.6" filter="url(#kb-glow)"/>
+        </g>
+
+        {/* Bokeh */}
+        <circle cx="42"  cy="200" r="4" fill="white" opacity="0.2"  filter="url(#kb-glow)"/>
+        <circle cx="278" cy="220" r="5" fill="white" opacity="0.18" filter="url(#kb-glow)"/>
+        <circle cx="38"  cy="260" r="3" fill="white" opacity="0.15"/>
+        <circle cx="282" cy="270" r="3" fill="white" opacity="0.15"/>
+        </>)}
 
       </g>
     </svg>
